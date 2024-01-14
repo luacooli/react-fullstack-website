@@ -1,7 +1,8 @@
-let db;
 import { MongoClient } from "mongodb";
 
-async function connectToDB(cb) {
+let db;
+
+async function connectToDb(cb) {
   const client = new MongoClient("mongodb://127.0.0.1:27017");
   await client.connect();
 
@@ -9,4 +10,4 @@ async function connectToDB(cb) {
   cb();
 }
 
-export { db, connectToDB };
+export { db, connectToDb };
