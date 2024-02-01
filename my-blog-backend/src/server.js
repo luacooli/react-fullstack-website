@@ -47,7 +47,6 @@ app.get("/api/articles/:name", async (req, res) => {
   if (article) {
     const upvoteIds = article.upvoteIds || [];
     article.canUpvote = uid && !upvoteIds.includes(uid);
-
     res.json(article);
   } else {
     res.sendStatus(404);
@@ -70,7 +69,7 @@ app.put("/api/articles/:name/upvote", async (req, res) => {
 
   if (article) {
     const upvoteIds = article.upvoteIds || [];
-    article.canUpvote = uid && !upvoteIds.includes(uid);
+    const canUpvote = uid && !upvoteIds.includes(uid);
 
     if (canUpvote) {
       await db.collection("articles").updateOne(
@@ -81,8 +80,8 @@ app.put("/api/articles/:name/upvote", async (req, res) => {
         }
       );
     }
-    const updatedArticle = await db.collection("articles").findOne({ name });
 
+    const updatedArticle = await db.collection("articles").findOne({ name });
     res.json(updatedArticle);
   } else {
     res.send("That article doesn't exist");
